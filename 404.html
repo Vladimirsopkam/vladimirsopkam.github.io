@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vladimir Joel Sopkam — Portfolio</title>
+<meta name="robots" content="noindex">
+<script>
+// Toute ancienne adresse anglaise (/en, /en/…) mène à la version anglaise ; le reste mène à l'accueil
+(function(){
+  var p = location.pathname.toLowerCase();
+  location.replace(/^\/en(\/|$)/.test(p) ? '/en.html' + location.hash : '/' + location.hash);
+})();
+</script>
+<style>body{margin:0;font:16px/1.6 "Segoe UI",Roboto,Arial,sans-serif;background:#EDF1F6;color:#1A2738;display:grid;place-items:center;min-height:100vh;text-align:center}a{color:#1D5A96}</style>
+</head>
+<body>
+<p>Redirection vers le portfolio… <a href="/">Continuer</a></p>
+</body>
+</html>
