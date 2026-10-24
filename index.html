@@ -7,7 +7,7 @@
 <meta name="description" content="Portfolio de Vladimir Joel Sopkam, ingénieur des travaux des télécommunications, spécialisé en administration systèmes, réseaux et sécurité des infrastructures.">
 <link rel="canonical" href="https://vladimirsopkam.github.io/">
 <link rel="alternate" hreflang="fr" href="https://vladimirsopkam.github.io/">
-<link rel="alternate" hreflang="en" href="https://vladimirsopkam.github.io/en/">
+<link rel="alternate" hreflang="en" href="https://vladimirsopkam.github.io/en.html">
 <link rel="alternate" hreflang="x-default" href="https://vladimirsopkam.github.io/">
 <script>
 // Première visite : un navigateur qui n'est pas en français est dirigé vers la version anglaise ; un choix explicite est toujours respecté
@@ -15,7 +15,7 @@
   if (!/github\.io$/.test(location.hostname)) return;
   var c = localStorage.getItem('portfolio-lang');
   var l = (navigator.languages && navigator.languages[0]) || navigator.language || 'fr';
-  if (c === 'en' || (!c && !/^fr/i.test(l))) location.replace('en/' + location.hash);
+  if (c === 'en' || (!c && !/^fr/i.test(l))) location.replace('en.html' + location.hash);
 }catch(e){}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -440,7 +440,7 @@ summary:hover{background:var(--hover-strong)}
   <div class="wrap bar">
     <a class="brand" href="#accueil"><span class="monogram">VJS</span><span>Vladimir Joel Sopkam<small>Ingénieur réseaux et télécommunications</small></span></a>
     <div class="bar-right">
-      <div class="lang" role="group" aria-label="Langue"><a href="./" hreflang="fr" lang="fr" data-lang="fr" aria-current="true" title="Version française">FR</a><a href="en/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a></div>
+      <div class="lang" role="group" aria-label="Langue"><a href="./" hreflang="fr" lang="fr" data-lang="fr" aria-current="true" title="Version française">FR</a><a href="en.html" hreflang="en" lang="en" data-lang="en" title="English version">EN</a></div>
     <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu
     </button>
