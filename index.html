@@ -31,6 +31,7 @@
   color-scheme:light;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
@@ -163,6 +164,7 @@ details[open] summary::before{transform:rotate(45deg)}
 details ol{margin-top:10px;padding-left:22px;display:grid;gap:7px;font-size:15px}
 details ol li::marker{color:var(--accent);font-weight:700}
 .empty{display:none;color:var(--muted);margin-top:12px}
+.count{font-size:14px;color:var(--muted);margin:-8px 0 16px}
 
 /* ---------- Compétences ---------- */
 .skills{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
@@ -171,6 +173,24 @@ details ol li::marker{color:var(--accent);font-weight:700}
 .skill-row h3{font-size:16.5px;font-weight:700;color:var(--accent)}
 .skill-row p{font-size:14px;color:var(--muted);margin-top:2px}
 .skill-row .chip{background:var(--bg);font-size:14px;padding:6px 12px}
+
+.skill-main{min-width:0}
+.skill-chip{cursor:pointer;font-family:var(--font);display:inline-flex;align-items:center;gap:6px;transition:border-color .15s,color .15s,background .15s}
+.skill-chip::after{content:"";width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translate(-1px,-1px);opacity:.55;transition:transform .15s}
+.skill-chip:hover{border-color:var(--accent);color:var(--accent)}
+.skill-chip[aria-expanded="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.skill-chip[aria-expanded="true"]::after{transform:rotate(-135deg) translate(-1px,-1px);opacity:1}
+.skill-detail{margin-top:14px;margin-bottom:2px;padding:18px 20px;border:1px solid #C9D9EA;border-left:4px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
+.skill-detail h4{margin:0 0 8px;font-size:16px;color:var(--accent)}
+.skill-detail ul{margin:0;padding-left:20px;display:grid;gap:5px;font-size:15px}
+.skill-detail ul li::marker{color:var(--accent)}
+.skill-detail .proj{margin-top:10px;font-size:14px;color:var(--muted)}
+.skill-detail .proj strong{color:var(--ink)}
+.skill-detail-wrap{height:0;overflow:hidden;transition:height .38s cubic-bezier(.22,.8,.24,1)}
+.skill-detail-wrap .skill-detail{opacity:0;transform:translateY(-6px);transition:opacity .26s ease,transform .32s cubic-bezier(.22,.8,.24,1)}
+.skill-detail-wrap.open .skill-detail{opacity:1;transform:none;transition-delay:.06s}
+.skill-detail-wrap.swap .skill-detail{opacity:0;transform:translateY(4px);transition-delay:0s;transition-duration:.14s}
+@media (prefers-reduced-motion: reduce){.skill-detail-wrap,.skill-detail-wrap .skill-detail{transition:none!important}}
 
 /* ---------- Parcours ---------- */
 .columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
@@ -235,6 +255,57 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
   .head h2::after{transition:width .4s ease}
   .section:hover .head h2::after{width:84px}
 }
+
+
+/* ---------- Survol : bleu ciel léger sur tout ce qui s'ouvre ou se clique ---------- */
+:root{--hover:#E3EEFA;--hover-strong:#D2E3F6;--hover-line:#9FBEDF}
+.card,.skill-row,.filter,.skill-chip,summary,.nav a,.btn-secondary,.lab-notes > div,.watch li{transition:background-color .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease,transform .2s ease}
+.card:hover,.card:focus-within,.section.alt .card:hover,.section.alt .card:focus-within{background:var(--hover);border-color:var(--hover-line)}
+.card:hover .chip,.card:focus-within .chip{background:var(--surface)}
+.skill-row,.skill-row:hover,.skill-row:focus-within{background:transparent}
+.skill-chip:hover,.skill-chip:focus-visible{background:var(--hover)!important;border-color:var(--hover-line);color:var(--accent)}
+.skill-chip[aria-expanded="true"],.skill-chip[aria-expanded="true"]:hover{background:var(--hover)!important;border-color:var(--accent);color:var(--accent);font-weight:600}
+.skill-detail{background:var(--surface)!important;border-color:var(--line)!important;border-left-color:var(--accent)!important}
+.filter[aria-pressed="false"]:hover{background:var(--hover);border-color:var(--hover-line);color:var(--accent)}
+summary{border-radius:6px;padding:4px 10px;margin-left:-10px}
+summary:hover{background:var(--hover-strong)}
+.nav a:not(.nav-cta):hover{background:var(--hover);color:var(--accent)}
+.btn-secondary:hover{background:var(--hover)}
+
+
+/* ---------- Formulaire de contact ---------- */
+.contact{align-items:start}
+.contact-form{background:var(--surface);color:var(--ink);border-radius:12px;padding:24px;display:grid;gap:16px;min-width:0;box-shadow:0 10px 30px rgba(10,30,60,.18)}
+.contact-form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.field-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-size:14px;font-weight:600;color:var(--ink)}
+.field label span{font-weight:400;color:var(--muted)}
+.field small{font-size:13px;color:var(--muted)}
+.field input,.field textarea{width:100%;font:400 15.5px var(--font);color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:11px 13px;transition:border-color .2s,background-color .2s,box-shadow .2s}
+.field textarea{resize:vertical;min-height:130px;line-height:1.5;display:block}
+.ta-wrap{position:relative}
+.tab-suggest{position:absolute;right:10px;bottom:10px;display:inline-flex;align-items:center;gap:6px;font:500 12.5px var(--font);color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .2s,transform .2s,background-color .2s,color .2s}
+.tab-suggest kbd{font:600 11.5px var(--font);color:var(--accent);background:var(--accent-soft);border:1px solid #C9D9EA;border-bottom-width:2px;border-radius:4px;padding:1px 6px}
+.tab-suggest:hover{background:var(--hover);color:var(--accent)}
+.ta-wrap.suggest .tab-suggest{opacity:1;pointer-events:auto;transform:none}
+@media (max-width:560px){.tab-suggest kbd{display:none}.tab-suggest span::before{content:"Toucher "}}
+.field input:hover,.field textarea:hover{border-color:var(--hover-line);background:var(--hover)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px rgba(29,90,150,.15)}
+.field.invalid input,.field.invalid textarea{border-color:#B4443A;background:#FBF1F0}
+.field .err{font-size:13px;color:#B4443A;font-weight:500}
+.send{justify-self:start;min-width:200px}
+.send[disabled]{opacity:.7;cursor:wait}
+.form-status{font-size:14.5px;font-weight:600;min-height:1.3em;margin:0}
+.form-status.ok{color:var(--ok)}
+.form-status.ko{color:#B4443A;display:flex;gap:10px;align-items:flex-start;background:#FBF1F0;border:1px solid #EBC3BF;border-radius:8px;padding:10px 12px}
+.form-status .warn{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:#B4443A;color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800;margin-top:1px}
+.form-status:empty{display:none}
+.req{color:#B4443A;font-weight:700}
+.contact .contact-form .req-note{font-size:13px;color:var(--muted);margin:-4px 0 0}
+.contact .contact-form .form-status{margin-top:0}
+.field .hint{display:flex;gap:6px;color:var(--accent);font-weight:500}
+@media (max-width:560px){.field-row{grid-template-columns:1fr}.contact-form{padding:18px}.send{justify-self:stretch}}
 
 /* ---------- Tablette ---------- */
 @media (max-width:980px){
@@ -432,6 +503,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
         <button class="filter" type="button" data-filter="methodes" aria-pressed="false">Méthodes</button>
       </div>
 
+      <p class="count" id="count" aria-live="polite">8 projets affichés</p>
       <div class="grid" id="projectGrid">
         <article class="card" data-cat="securite systemes">
           <div class="card-top"><span class="domain">Sécurité et identité</span><span class="ctx">Projet en 7 jalons</span></div>
@@ -594,23 +666,23 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
     <div class="wrap">
       <div class="head">
         <h2>Compétences techniques</h2>
-        <p>Outils et technologies que j'ai mis en œuvre en projet, regroupés par domaine.</p>
+        <p>Outils et technologies que j'ai mis en œuvre en projet. Cliquez sur un outil pour voir concrètement ce que j'en ai fait.</p>
       </div>
       <div class="skills">
         <div class="skill-row"><div><h3>Systèmes</h3><p>Serveurs et postes</p></div>
-          <div class="chips"><span class="chip">Windows Server</span><span class="chip">Debian Linux 13</span><span class="chip">Windows 10</span><span class="chip">PowerShell</span><span class="chip">Bash</span><span class="chip">MobaXterm</span></div></div>
+          <div class="skill-main"><div class="chips"><button type="button" class="chip skill-chip" data-skill="windows-server" aria-expanded="false">Windows Server</button><button type="button" class="chip skill-chip" data-skill="debian-linux-13" aria-expanded="false">Debian Linux 13</button><button type="button" class="chip skill-chip" data-skill="windows-10" aria-expanded="false">Windows 10</button><button type="button" class="chip skill-chip" data-skill="powershell" aria-expanded="false">PowerShell</button><button type="button" class="chip skill-chip" data-skill="bash" aria-expanded="false">Bash</button><button type="button" class="chip skill-chip" data-skill="mobaxterm" aria-expanded="false">MobaXterm</button></div><div class="skill-detail-wrap"><div class="skill-detail"></div></div></div></div>
         <div class="skill-row"><div><h3>Annuaire et identité</h3><p>Comptes, droits, authentification</p></div>
-          <div class="chips"><span class="chip">Active Directory</span><span class="chip">GPO</span><span class="chip">LDAP / LDAPS</span><span class="chip">Keycloak</span><span class="chip">SSO</span><span class="chip">Comptes de service</span><span class="chip">KeePassXC</span></div></div>
+          <div class="skill-main"><div class="chips"><button type="button" class="chip skill-chip" data-skill="active-directory" aria-expanded="false">Active Directory</button><button type="button" class="chip skill-chip" data-skill="gpo" aria-expanded="false">GPO</button><button type="button" class="chip skill-chip" data-skill="ldap-ldaps" aria-expanded="false">LDAP / LDAPS</button><button type="button" class="chip skill-chip" data-skill="keycloak" aria-expanded="false">Keycloak</button><button type="button" class="chip skill-chip" data-skill="sso" aria-expanded="false">SSO</button><button type="button" class="chip skill-chip" data-skill="comptes-de-service" aria-expanded="false">Comptes de service</button><button type="button" class="chip skill-chip" data-skill="keepassxc" aria-expanded="false">KeePassXC</button></div><div class="skill-detail-wrap"><div class="skill-detail"></div></div></div></div>
         <div class="skill-row"><div><h3>Réseau et web</h3><p>Services et flux</p></div>
-          <div class="chips"><span class="chip">DNS (A, CNAME)</span><span class="chip">Adressage IP</span><span class="chip">Apache</span><span class="chip">Relais inverse</span><span class="chip">HTTPS / TLS</span><span class="chip">SSH</span></div></div>
+          <div class="skill-main"><div class="chips"><button type="button" class="chip skill-chip" data-skill="dns-a-cname" aria-expanded="false">DNS (A, CNAME)</button><button type="button" class="chip skill-chip" data-skill="adressage-ip" aria-expanded="false">Adressage IP</button><button type="button" class="chip skill-chip" data-skill="apache" aria-expanded="false">Apache</button><button type="button" class="chip skill-chip" data-skill="relais-inverse" aria-expanded="false">Relais inverse</button><button type="button" class="chip skill-chip" data-skill="https-tls" aria-expanded="false">HTTPS / TLS</button><button type="button" class="chip skill-chip" data-skill="ssh" aria-expanded="false">SSH</button></div><div class="skill-detail-wrap"><div class="skill-detail"></div></div></div></div>
         <div class="skill-row"><div><h3>Supervision et parc</h3><p>Exploitation au quotidien</p></div>
-          <div class="chips"><span class="chip">Zabbix</span><span class="chip">GLPI 11</span><span class="chip">Agent GLPI</span><span class="chip">MariaDB</span><span class="chip">PHP 8.4</span></div></div>
+          <div class="skill-main"><div class="chips"><button type="button" class="chip skill-chip" data-skill="zabbix" aria-expanded="false">Zabbix</button><button type="button" class="chip skill-chip" data-skill="glpi-11" aria-expanded="false">GLPI 11</button><button type="button" class="chip skill-chip" data-skill="agent-glpi" aria-expanded="false">Agent GLPI</button><button type="button" class="chip skill-chip" data-skill="mariadb" aria-expanded="false">MariaDB</button><button type="button" class="chip skill-chip" data-skill="php-8-4" aria-expanded="false">PHP 8.4</button></div><div class="skill-detail-wrap"><div class="skill-detail"></div></div></div></div>
         <div class="skill-row"><div><h3>Virtualisation et stockage</h3><p>Plateformes et données</p></div>
-          <div class="chips"><span class="chip">VMware Workstation</span><span class="chip">Snapshots</span><span class="chip">Proxmox VE</span><span class="chip">TrueNAS</span><span class="chip">SAN</span><span class="chip">Nextcloud</span></div></div>
+          <div class="skill-main"><div class="chips"><button type="button" class="chip skill-chip" data-skill="vmware-workstation" aria-expanded="false">VMware Workstation</button><button type="button" class="chip skill-chip" data-skill="snapshots" aria-expanded="false">Snapshots</button><button type="button" class="chip skill-chip" data-skill="proxmox-ve" aria-expanded="false">Proxmox VE</button><button type="button" class="chip skill-chip" data-skill="truenas" aria-expanded="false">TrueNAS</button><button type="button" class="chip skill-chip" data-skill="san" aria-expanded="false">SAN</button><button type="button" class="chip skill-chip" data-skill="nextcloud" aria-expanded="false">Nextcloud</button></div><div class="skill-detail-wrap"><div class="skill-detail"></div></div></div></div>
         <div class="skill-row"><div><h3>Cloud</h3><p>Amazon Web Services</p></div>
-          <div class="chips"><span class="chip">EC2</span><span class="chip">Elastic Load Balancing</span><span class="chip">Auto Scaling</span><span class="chip">CloudWatch</span><span class="chip">VPC</span></div></div>
+          <div class="skill-main"><div class="chips"><button type="button" class="chip skill-chip" data-skill="ec2" aria-expanded="false">EC2</button><button type="button" class="chip skill-chip" data-skill="elastic-load-balancing" aria-expanded="false">Elastic Load Balancing</button><button type="button" class="chip skill-chip" data-skill="auto-scaling" aria-expanded="false">Auto Scaling</button><button type="button" class="chip skill-chip" data-skill="cloudwatch" aria-expanded="false">CloudWatch</button><button type="button" class="chip skill-chip" data-skill="vpc" aria-expanded="false">VPC</button></div><div class="skill-detail-wrap"><div class="skill-detail"></div></div></div></div>
         <div class="skill-row"><div><h3>Méthodes</h3><p>Conduite de projet</p></div>
-          <div class="chips"><span class="chip">Analyse de risques</span><span class="chip">Analyse des besoins</span><span class="chip">Rapports techniques</span><span class="chip">Documentation</span><span class="chip">Veille technologique</span></div></div>
+          <div class="skill-main"><div class="chips"><button type="button" class="chip skill-chip" data-skill="analyse-de-risques" aria-expanded="false">Analyse de risques</button><button type="button" class="chip skill-chip" data-skill="analyse-des-besoins" aria-expanded="false">Analyse des besoins</button><button type="button" class="chip skill-chip" data-skill="rapports-techniques" aria-expanded="false">Rapports techniques</button><button type="button" class="chip skill-chip" data-skill="documentation" aria-expanded="false">Documentation</button><button type="button" class="chip skill-chip" data-skill="veille-technologique" aria-expanded="false">Veille technologique</button></div><div class="skill-detail-wrap"><div class="skill-detail"></div></div></div></div>
       </div>
     </div>
   </section>
@@ -651,17 +723,41 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
     <div class="wrap">
       <div class="contact">
         <div>
-          <h2>Travaillons ensemble</h2>
-          <p>Stage, alternance ou projet en administration systèmes, réseaux et sécurité : écrivez-moi, je réponds rapidement.</p>
+          <h2>Envoyez-moi un message</h2>
+          <p>Stage, alternance, emploi ou projet en réseaux, systèmes et sécurité : laissez-moi un message, il m'arrive directement et je vous réponds rapidement.</p>
         </div>
-        <div class="contact-box">
-          <span class="label" id="mailLabel">Adresse e-mail</span>
-          <div class="copy-row">
-            <output id="mail" aria-labelledby="mailLabel">vladimirsopkam@gmail.com</output>
-            <button class="btn btn-primary" id="copyBtn" type="button">Copier l'adresse</button>
+        <form class="contact-form" id="contactForm" novalidate>
+          <input type="hidden" name="access_key" value="4209b5a8-4912-4cf5-a035-cc3d2964885d">
+          <input type="hidden" name="subject" value="Nouveau message depuis votre portfolio">
+          <input type="hidden" name="from_name" value="Portfolio Vladimir Joel Sopkam">
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="field-row">
+            <div class="field">
+              <label for="cf-name">Nom et prénom <b class="req" aria-hidden="true">*</b></label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="cf-company">Entreprise <span>(facultatif)</span></label>
+              <input id="cf-company" name="entreprise" type="text" autocomplete="organization">
+            </div>
           </div>
-          <p class="feedback" id="feedback" aria-live="polite"></p>
-        </div>
+          <div class="field">
+            <label for="cf-email">Votre adresse e-mail <b class="req" aria-hidden="true">*</b></label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" required>
+            <small>Pour que je puisse vous répondre.</small>
+          </div>
+          <div class="field">
+            <label for="cf-message">Votre message <b class="req" aria-hidden="true">*</b></label>
+            <div class="ta-wrap">
+              <textarea id="cf-message" name="message" rows="5" required placeholder="Bonjour, je vous contacte au sujet de…" aria-describedby="cf-tabhint cf-hint"></textarea>
+              <button type="button" class="tab-suggest" id="cf-suggest" tabindex="-1"><kbd>Tab</kbd> <span id="cf-tabhint">pour utiliser ce début de message</span></button>
+            </div>
+            <small id="cf-hint" class="hint">À la fin de votre message, pensez à laisser vos coordonnées (e-mail, numéro de téléphone) pour que je puisse vous recontacter.</small>
+          </div>
+          <p class="req-note"><b class="req" aria-hidden="true">*</b> Champs obligatoires</p>
+          <button class="btn btn-primary send" id="cf-send" type="submit">Envoyer le message</button>
+          <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </div>
   </section>
@@ -709,19 +805,50 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
         if (ok){ shown++; void c.offsetWidth; c.classList.add('show'); }
       });
       empty.style.display = shown ? 'none' : 'block';
+      document.getElementById('count').textContent = shown + (shown > 1 ? ' projets affichés' : ' projet affiché');
     });
   });
 
-  document.getElementById('copyBtn').addEventListener('click', function(){
-    var el = document.getElementById('mail'), out = document.getElementById('feedback');
-    function fallback(){
-      var r = document.createRange(); r.selectNodeContents(el);
-      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-      out.textContent = 'Adresse sélectionnée : appuyez sur Ctrl+C pour la copier.';
+  // Formulaire de contact
+  var form = document.getElementById('contactForm');
+  if (form){
+    var status = document.getElementById('cf-status'), send = document.getElementById('cf-send');
+    function setErr(input, msg){
+      var f = input.closest('.field'), e = f.querySelector('.err');
+      if (msg){ f.classList.add('invalid'); if (!e){ e = document.createElement('span'); e.className = 'err'; f.appendChild(e); } e.textContent = msg; input.setAttribute('aria-invalid','true'); }
+      else { f.classList.remove('invalid'); if (e) e.remove(); input.removeAttribute('aria-invalid'); }
     }
-    try { navigator.clipboard.writeText(el.textContent).then(function(){ out.textContent = 'Adresse copiée.'; }, fallback); }
-    catch(e){ fallback(); }
-  });
+    function check(){
+      var ok = true, n = form.elements.name, m = form.elements.email, t = form.elements.message;
+      if (!n.value.trim()){ setErr(n, 'Indiquez votre nom.'); ok = false; } else setErr(n);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value.trim())){ setErr(m, 'Indiquez une adresse e-mail valide pour recevoir ma réponse.'); ok = false; } else setErr(m);
+      if (t.value.trim().length < 8){ setErr(t, t.value.trim() ? 'Votre message est trop court.' : 'Écrivez votre message.'); ok = false; } else setErr(t);
+      return ok;
+    }
+    // Début de message proposé : Tab (ou un toucher sur l'étiquette) l'insère quand le champ est vide
+    var ta = form.elements.message, wrapTa = ta.closest('.ta-wrap'), STARTER = 'Bonjour, je vous contacte au sujet de ';
+    function refreshSuggest(){ wrapTa.classList.toggle('suggest', document.activeElement === ta && !ta.value); }
+    function useStarter(){ ta.value = STARTER; ta.focus(); ta.setSelectionRange(STARTER.length, STARTER.length); refreshSuggest(); }
+    ta.addEventListener('keydown', function(e){ if (e.key === 'Tab' && !e.shiftKey && !ta.value){ e.preventDefault(); useStarter(); } });
+    ['focus','blur','input'].forEach(function(ev){ ta.addEventListener(ev, function(){ setTimeout(refreshSuggest, 0); }); });
+    document.getElementById('cf-suggest').addEventListener('mousedown', function(e){ e.preventDefault(); useStarter(); });
+    ['input','change'].forEach(function(ev){ form.addEventListener(ev, function(e){ if (e.target.closest('.field.invalid')){ if (check()){ status.className = 'form-status'; status.textContent = ''; } } }); });
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      status.className = 'form-status'; status.textContent = '';
+      if (!check()){ status.className = 'form-status ko'; status.innerHTML = '<span class="warn" aria-hidden="true">!</span>Vous n\'avez pas rempli les champs requis. Complétez les champs en rouge pour envoyer votre message.'; var first = form.querySelector('.invalid input, .invalid textarea'); if (first) first.focus(); return; }
+      send.disabled = true; send.textContent = 'Envoi en cours…';
+      var data = {}; new FormData(form).forEach(function(v,k){ data[k] = v; });
+      fetch('https://api.web3forms.com/submit', {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify(data)})
+        .then(function(r){ return r.json(); })
+        .then(function(res){
+          if (res.success){ form.reset(); status.className = 'form-status ok'; status.textContent = 'Message envoyé. Merci, je vous réponds rapidement.'; }
+          else throw new Error();
+        })
+        .catch(function(){ status.className = 'form-status ko'; status.textContent = "Le message n'a pas pu partir. Vérifiez votre connexion et réessayez."; })
+        .then(function(){ send.disabled = false; send.textContent = 'Envoyer le message'; });
+    });
+  }
 
   // Compteurs des chiffres clés : la valeur finale est déjà affichée, le compteur ne fait que la rejouer
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -741,6 +868,68 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
     }, {threshold:.6});
     nums.forEach(function(n){ cio.observe(n); });
   }
+
+
+  // Détail des compétences
+  var SKILLS = {"windows-server": {"name": "Windows Server", "did": ["Installation et administration du contrôleur de domaine SRV-AD (domaine garonne.lan)", "Rôles AD DS et DNS : zone du domaine, enregistrements des serveurs et des applications", "Création et application de stratégies de groupe (GPO)", "Mise en place du certificat utilisé pour les connexions LDAPS", "Points de restauration (snapshots) avant toute opération sensible"], "proj": "Active Directory et LDAP, Authentification unique Keycloak"}, "debian-linux-13": {"name": "Debian Linux 13", "did": ["Deux serveurs Debian administrés : le serveur web (Apache, Nextcloud, pointeuse) et le serveur de services (GLPI, Zabbix, Keycloak, MariaDB)", "Installation de GLPI avec configuration, données et journaux séparés de la racine web", "Audit des comptes Linux des serveurs", "Retrait d'un fichier de configuration sensible qui était téléchargeable depuis le web", "Administration à distance en SSH et durcissement de la configuration"], "proj": "Zabbix et GLPI, Relais inverse HTTPS, Authentification unique Keycloak"}, "windows-10": {"name": "Windows 10", "did": ["Poste client membre du domaine, utilisé pour valider l'infrastructure côté utilisateur", "Tests d'accès aux applications en HTTPS via le relais", "Tests de résolution de noms et de connexion unique avec les comptes du domaine", "Poste cible de l'inventaire automatique GLPI"], "proj": "Relais inverse HTTPS, Authentification unique Keycloak"}, "powershell": {"name": "PowerShell", "did": ["Création et correction de comptes Active Directory (SamAccountName, UPN, e-mail)", "Inventaire de l'annuaire : utilisateurs, ordinateurs, administrateurs du domaine, comptes inactifs", "Vérification de la résolution DNS des services (Resolve-DnsName)"], "proj": "Active Directory et LDAP, Authentification unique Keycloak"}, "bash": {"name": "Bash", "did": ["Installation des paquets et des services sur Debian", "Téléchargement, extraction et déploiement de GLPI", "Activation des sites Apache et redémarrage des services", "Tests HTTP en ligne de commande pour valider le relais"], "proj": "Zabbix et GLPI, Relais inverse HTTPS"}, "mobaxterm": {"name": "MobaXterm", "did": ["Client SSH utilisé pour administrer les serveurs Debian depuis le poste Windows", "Sessions multiples et transfert de fichiers vers les serveurs"], "proj": "Active Directory et LDAP, Zabbix et GLPI"}, "active-directory": {"name": "Active Directory", "did": ["Organisation de l'annuaire en unités d'organisation par service (Direction, RH, chefs d'équipe, compagnons)", "Création des utilisateurs de test et des groupes métier", "Audit des comptes et des groupes à privilèges", "Désactivation et mise en quarantaine datée d'un compte inactif", "Comptes de service dédiés pour Nextcloud et Keycloak"], "proj": "Active Directory et LDAP, Authentification unique Keycloak"}, "gpo": {"name": "GPO", "did": ["Conception et application de stratégies de groupe sur les postes et les utilisateurs du domaine", "Vérification de leur application sur le poste client"], "proj": "Active Directory et LDAP"}, "ldap-ldaps": {"name": "LDAP / LDAPS", "did": ["Raccordement de Nextcloud à l'Active Directory en LDAP", "Diagnostic d'un utilisateur introuvable : attribut displayName absent, nom d'affichage basculé sur cn", "Connexion d'une application de pointage PHP à l'annuaire et dépannage", "Fédération de Keycloak en LDAPS (port 636) avec vérification du certificat"], "proj": "Active Directory et LDAP, Authentification unique Keycloak"}, "keycloak": {"name": "Keycloak", "did": ["Installation de Keycloak 26 sur le serveur de services", "Création d'un realm dédié à l'entreprise", "Fédération de l'Active Directory en LDAPS", "Suppression du compte d'administration temporaire, compte d'administration nominatif", "Raccordement des applications en connexion unique"], "proj": "Authentification unique Keycloak"}, "sso": {"name": "SSO", "did": ["Mise en place d'une connexion unique pour les applications de l'entreprise", "Rédaction de la politique d'authentification et de la matrice des accès"], "proj": "Authentification unique Keycloak"}, "comptes-de-service": {"name": "Comptes de service", "did": ["Compte de service LDAP pour Nextcloud et la pointeuse", "Compte de service dédié à Keycloak", "Application du moindre privilège et rotation des mots de passe"], "proj": "Active Directory et LDAP, Authentification unique Keycloak"}, "keepassxc": {"name": "KeePassXC", "did": ["Coffre de mots de passe pour tous les secrets d'administration du laboratoire", "Aucun secret laissé en clair dans les rapports"], "proj": "Authentification unique Keycloak"}, "dns-a-cname": {"name": "DNS (A, CNAME)", "did": ["Enregistrement A pour le fournisseur d'identité", "Enregistrements CNAME des applications vers le serveur web", "Noms dédiés pour GLPI et Zabbix publiés via le relais", "Vérification de la résolution depuis le contrôleur de domaine"], "proj": "Relais inverse HTTPS, Authentification unique Keycloak"}, "adressage-ip": {"name": "Adressage IP", "did": ["Plan d'adressage privé du laboratoire", "Adresses fixes pour chaque serveur", "Contrôle des ports ouverts entre serveurs (LDAP 389, LDAPS 636, HTTPS 443)"], "proj": "Laboratoire d'infrastructure"}, "apache": {"name": "Apache", "did": ["Hôtes virtuels par nom pour Nextcloud, la pointeuse, GLPI et Zabbix", "PHP intégré à Apache", "Cohabitation de deux applications sur un même serveur par séparation des ports"], "proj": "Relais inverse HTTPS, Zabbix et GLPI"}, "relais-inverse": {"name": "Relais inverse", "did": ["Publication de GLPI et Zabbix derrière le serveur web", "Ajout des nouveaux sites sans interrompre ceux déjà en service", "Tests de bout en bout depuis le poste client"], "proj": "Relais inverse HTTPS"}, "https-tls": {"name": "HTTPS / TLS", "did": ["Redirection systématique de HTTP vers HTTPS", "Gestion des certificats des sites", "Diagnostic d'un certificat qui ne couvrait qu'un seul nom"], "proj": "Relais inverse HTTPS"}, "ssh": {"name": "SSH", "did": ["Administration à distance de tous les serveurs Linux", "Durcissement de la configuration sshd", "Diagnostic d'un accès refusé après durcissement"], "proj": "Relais inverse HTTPS"}, "zabbix": {"name": "Zabbix", "did": ["Installation du serveur et de l'interface web sous Apache", "Supervision des équipements du laboratoire", "Publication de l'interface via le relais HTTPS"], "proj": "Zabbix et GLPI"}, "glpi-11": {"name": "GLPI 11", "did": ["Installation selon les recommandations de sécurité de l'éditeur", "Base de données dédiée et assistant d'installation", "Changement des mots de passe par défaut des comptes", "Accès via un nom dédié en HTTPS"], "proj": "Zabbix et GLPI"}, "agent-glpi": {"name": "Agent GLPI", "did": ["Déploiement de l'agent pour remonter automatiquement l'inventaire des postes dans GLPI"], "proj": "Zabbix et GLPI"}, "mariadb": {"name": "MariaDB", "did": ["Base de données de GLPI", "Audit des comptes des bases dans le cadre du projet SSO"], "proj": "Zabbix et GLPI, Authentification unique Keycloak"}, "php-8-4": {"name": "PHP 8.4", "did": ["Réglages PHP requis par GLPI", "Module LDAP de PHP pour l'application de pointage"], "proj": "Zabbix et GLPI, Active Directory et LDAP"}, "vmware-workstation": {"name": "VMware Workstation", "did": ["Hébergement de toute la maquette d'entreprise : contrôleur de domaine, serveur web, serveur de services et poste client", "Configuration du réseau virtuel entre les machines"], "proj": "Laboratoire d'infrastructure"}, "snapshots": {"name": "Snapshots", "did": ["Points de restauration avant chaque opération risquée", "Retour arrière propre lors du changement d'un mot de passe administrateur"], "proj": "Authentification unique Keycloak"}, "proxmox-ve": {"name": "Proxmox VE", "did": ["Conception d'un cluster de trois nœuds", "Serveur Proxmox dédié à la sauvegarde", "Schéma d'architecture réalisé sous Lucidchart"], "proj": "TrueNAS et architecture Proxmox"}, "truenas": {"name": "TrueNAS", "did": ["Installation et déploiement", "Rédaction d'une documentation d'exploitation complète", "Rôle de stockage partagé (SAN) dans l'architecture Proxmox"], "proj": "TrueNAS et architecture Proxmox"}, "san": {"name": "SAN", "did": ["Conception du stockage partagé du cluster de virtualisation sur TrueNAS"], "proj": "TrueNAS et architecture Proxmox"}, "nextcloud": {"name": "Nextcloud", "did": ["Plateforme collaborative de l'entreprise sur le serveur web", "Authentification des utilisateurs par l'Active Directory", "Accès en HTTPS via le relais"], "proj": "Active Directory et LDAP"}, "ec2": {"name": "EC2", "did": ["Instances et modèle de lancement pour l'application web"], "proj": "Haute disponibilité sur AWS"}, "elastic-load-balancing": {"name": "Elastic Load Balancing", "did": ["Équilibreur de charge applicatif et groupe cible répartissant le trafic"], "proj": "Haute disponibilité sur AWS"}, "auto-scaling": {"name": "Auto Scaling", "did": ["Groupe Auto Scaling réparti sur plusieurs zones de disponibilité", "Ajout et retrait automatiques d'instances selon la charge"], "proj": "Haute disponibilité sur AWS"}, "cloudwatch": {"name": "CloudWatch", "did": ["Alarmes de supervision qui déclenchent la mise à l'échelle"], "proj": "Haute disponibilité sur AWS"}, "vpc": {"name": "VPC", "did": ["Instances placées dans des sous-réseaux de plusieurs zones de disponibilité"], "proj": "Haute disponibilité sur AWS"}, "analyse-de-risques": {"name": "Analyse de risques", "did": ["Identification et argumentation des risques résiduels après le déploiement du SSO", "Corrections priorisées : mots de passe, comptes inactifs, fichiers exposés"], "proj": "Authentification unique Keycloak"}, "analyse-des-besoins": {"name": "Analyse des besoins", "did": ["Deux études d'avant-projet : informatisation d'une bibliothèque et système d'information d'une société de maintenance", "Besoins fonctionnels et non fonctionnels formalisés, méthodes d'analyse justifiées"], "proj": "Analyse et formalisation des besoins"}, "rapports-techniques": {"name": "Rapports techniques", "did": ["Rapports d'administration structurés par jalon, avec preuves de fonctionnement", "Difficultés rencontrées et solutions apportées, sans aucun secret en clair"], "proj": "Authentification unique Keycloak, Active Directory et LDAP"}, "documentation": {"name": "Documentation", "did": ["Documentation d'installation et d'exploitation de TrueNAS", "Procédures réutilisables pour l'équipe"], "proj": "TrueNAS et architecture Proxmox"}, "veille-technologique": {"name": "Veille technologique", "did": ["Suivi régulier de trois axes : sécurité de l'IA, administration réseau, sécurité des infrastructures", "Sources : ANSSI, BEREC, Techniques de l'Ingénieur, Inoreader"], "proj": "Veille technologique en sécurité"}};
+  var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DUR = reduceMotion ? 0 : 380;
+  function render(d){
+    var h = '<h4>' + d.name + ' : ce que j\'ai réalisé</h4><ul>';
+    d.did.forEach(function(x){ h += '<li>' + x + '</li>'; });
+    return h + '</ul><p class="proj"><strong>Projets liés :</strong> ' + d.proj + '</p>';
+  }
+  function settle(wrap){ if (wrap.classList.contains('open')) wrap.style.height = 'auto'; }
+  function openWrap(wrap){
+    wrap.style.height = wrap.offsetHeight + 'px';
+    wrap.classList.add('open');
+    requestAnimationFrame(function(){ wrap.style.height = wrap.scrollHeight + 'px'; });
+    clearTimeout(wrap._t); wrap._t = setTimeout(function(){ settle(wrap); }, DUR + 20);
+  }
+  function closeWrap(wrap){
+    if (!wrap.classList.contains('open')) return;
+    wrap.style.height = wrap.offsetHeight + 'px';
+    void wrap.offsetHeight;
+    wrap.classList.remove('open');
+    wrap.style.height = '0px';
+    clearTimeout(wrap._t);
+  }
+  // garde l'outil cliqué immobile à l'écran pendant que les encadrés s'ouvrent et se ferment
+  function holdInPlace(el){
+    var start = el.getBoundingClientRect().top, t0 = performance.now();
+    (function tick(now){
+      var diff = el.getBoundingClientRect().top - start;
+      if (Math.abs(diff) > .5) window.scrollBy({top: diff, left: 0, behavior: 'instant'});
+      if (now - t0 < DUR + 220) requestAnimationFrame(tick);
+    })(t0);
+  }
+  document.querySelectorAll('.skill-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var wrap = chip.closest('.skill-main').querySelector('.skill-detail-wrap');
+      var panel = wrap.querySelector('.skill-detail');
+      var wasOpen = chip.getAttribute('aria-expanded') === 'true';
+      var d = SKILLS[chip.dataset.skill]; if (!d) return;
+      holdInPlace(chip);
+      document.querySelectorAll('.skill-chip').forEach(function(c){ c.setAttribute('aria-expanded','false'); });
+      document.querySelectorAll('.skill-detail-wrap').forEach(function(w){ if (w !== wrap) closeWrap(w); });
+      if (wasOpen){ closeWrap(wrap); return; }
+      chip.setAttribute('aria-expanded','true');
+      if (wrap.classList.contains('open') && DUR){
+        // même ligne : fondu enchaîné du contenu et ajustement doux de la hauteur
+        wrap.style.height = wrap.offsetHeight + 'px';
+        wrap.classList.add('swap');
+        setTimeout(function(){
+          panel.innerHTML = render(d);
+          wrap.style.height = wrap.scrollHeight + 'px';
+          wrap.classList.remove('swap');
+          clearTimeout(wrap._t); wrap._t = setTimeout(function(){ settle(wrap); }, DUR + 20);
+        }, 140);
+      } else {
+        panel.innerHTML = render(d);
+        openWrap(wrap);
+      }
+    });
+  });
 
   var toTop = document.getElementById('toTop');
   window.addEventListener('scroll', function(){ toTop.classList.toggle('show', window.scrollY > 700); }, {passive:true});
